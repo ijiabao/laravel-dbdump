@@ -1,6 +1,6 @@
 {
     "name": "ijiabao/laravel-dbdump",
-    "description": "laravel database export and import",
+    "description": "laravel database export/import manager",
     "license": "MIT",
     "authors": [
         {
@@ -14,5 +14,16 @@
         "psr-4": {
             "iJiabao\\DbDump\\": "src/"
         }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "iJiabao\\DbDump\\DbDumpServiceProvider"
+            ],
+            "aliases": {
+                "DbDump": "iJiabao\\DbDump\\Facades\\DbDump"
+            }
+        }
     }
+
 }
