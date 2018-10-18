@@ -8,6 +8,8 @@
 
 namespace iJiabao\DbDump;
 
+use Illuminate\Foundation\Application;
+
 /**
  * Class DbDump
  * @package iJiabao\DbDump
@@ -18,19 +20,45 @@ namespace iJiabao\DbDump;
 class DbDump
 {
 
+    /** @var Application */
+    protected $app;
+    protected $cfg;
+
     protected $mysql_bin = 'mysql';
     protected $mysql_dump_bin = 'mysqldump';
+    protected $save_dir;
     protected $save_file;
 
-    public function __construct()
+    /**
+     * DbDump constructor.
+     * @param Application $app
+     */
+    public function __construct($app)
     {
+
+        $this->app = $app;
+
+        /** @var \Illuminate\Config\Repository $cfg */
+        $cfg = $app['config'];
+
+        $bindir = $cfg->get('dbdump.mysql_bin_dir');
+        $focus_bindir = $cfg->get('dbdump.cli_mysql_bin_dir');
+
+        // Running in CLI.
+        if($app->runningInConsole() && $focus_bindir){
+            $bindir = $focus_bindir;
+        }
+
+        if($bindir){
+            $bindir = realpath($bindir);
+        }
         //$sep = DIRECTORY_SEPARATOR;
-        $dir = config('dbdump.mysql_bin_dir');
+
         // 可能是linux子系统,调用win32程序 /mnt/d/foo/bar/mysql/bin/mysql.exe
         // 则, mysql环境可能为win32, 终端(CLI)环境为 linux bash, 识别为非 Windows
-        if ($dir){
-            $this->mysql_bin = realpath("{$dir}/mysql");
-            $this->mysql_dump_bin = realpath("{$dir}/mysqldump");
+        if ($bindir){
+            $this->mysql_bin = "{$bindir}/mysql";
+            $this->mysql_dump_bin ="{$bindir}/mysqldump";
             if(file_exists($this->mysql_bin.'.exe')){
                 $this->mysql_bin .= '.exe';
                 $this->mysql_dump_bin .= '.exe';
@@ -42,8 +70,9 @@ class DbDump
             $this->mysql_dump_bin .= '.exe';
         }
 
-        $dir = config('dbdump.save_dir', resource_path('dbdump'));
-        $this->save_file = $dir.'/migrate.sql';
+        $this->save_dir = $cfg->get('dbdump.save_dir', resource_path('dbdump'));
+
+        $this->save_file = $this->save_dir.'/migrate.sql';
     }
 
     /**

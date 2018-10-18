@@ -37,7 +37,7 @@ class DbDumpServiceProvider extends ServiceProvider
         });
 
         $this->app->singleton('ijiabao.dbdump', function($app){
-            return new DbDump();
+            return new DbDump($app);
         });
 
         $this->commands('command.ijiabao.dbdump');
