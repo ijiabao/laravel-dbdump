@@ -122,8 +122,12 @@ class DbDump
 
         $cmd .= " > {$outfile}";
 
+        try {
+            exec($cmd, $output, $ret);
+        } catch(\Exception $e){
+            return false;
+        }
 
-        @exec($cmd, $output, $ret);
         // dump($cmd, $output);
         return ($ret === 0);
     }
@@ -148,7 +152,11 @@ class DbDump
         $cmd = "{$bin} -u{$cfg['username']} -p{$cfg['password']} {$cfg['database']}";
         $cmd .= " < {$srcfile}";
 
-        @exec($cmd, $output, $ret);
+        try{
+            exec($cmd, $output, $ret);
+        } catch(\Exception $e){
+            return false;
+        }
         return ($ret === 0);
 
     }

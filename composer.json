@@ -1,8 +1,9 @@
 {
     "name": "ijiabao/laravel-dbdump",
 	"type": "package",
-    "description": "laravel database export/import manager",
+    "description": "laravel database export/import manager. 数据库快速导入导出",
 	"keywords": ["laravel dbdump", "laravel database", "db export", "db import", "db dump", "ijiabao"],
+	"homepage": "https://github.com/ijiabao/laravel-dbdump",
     "license": "MIT",
     "authors": [
         {

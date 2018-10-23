@@ -65,13 +65,22 @@ class DbDumpCommand extends Command
     public function handle()
     {
         //
-
         $action = $this->argument('action');
         if($action=='import'){
-            DbDump::import();
+            if(DbDump::import()){
+                $this->info('import cmd run successed!');
+            }
+            else{
+                $this->error('run import cmd error!');
+            }
         }
         else if($action=='export'){
-            DbDump::export();
+            if(DbDump::export()){
+                $this->info('export cmd run succeeded!');
+            }
+            else{
+                $this->error('run export cmd error!');
+            }
         }
     }
 }

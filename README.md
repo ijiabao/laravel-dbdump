@@ -1,8 +1,9 @@
 # laravel-dbdump
 * 用于数据库备份/同步
+* 项目首页: https://github.com/ijiabao/laravel-dbdump
 * 使用php artisan命令, 应用于开发期版本控制时,表结构经常变动或经常同步数据库信息.
 * 核心使用mysql/mysqldump命令进行导入/导出
-* 基于laravel5.5开发(php7),注意版本
+* 基于laravel5.5开发
 
 
 
